@@ -116,9 +116,10 @@ $user = $result->fetch_assoc();
             color: #e67e22;
             background-color: #252525;
         }
-        .brandmenu-item.active {
-            color: #e67e22;
-            background-color: #252525;
+        /* Add this to your CSS */
+        .menu-item.active {
+        color: #e67e22;
+        background-color: #252525;
         }
         
         .menu-icon {
@@ -218,46 +219,46 @@ $user = $result->fetch_assoc();
         </div>
         
         <nav class="menu">
-            <a href="../pages/dashboard.php" class="menu-item" >
+            <a href="../pages/dashboard.php" class="menu-item" data-page="dashboard" >
                 <span class="menu-icon"><i class="fas fa-th-large"></i></span>
                 <span class="menu-text">Dashboard</span>
             </a>
-            <a href="../pages/customer.php" class="menu-item" >
+            <a href="../pages/customer.php" class="menu-item" data-page="customer" >
                 <span class="menu-icon"><i class="fas fa-user"></i></span>
                 <span class="menu-text">Customer</span>
             </a>
-            <a href="../pages/order.php" class="menu-item">
+            <a href="../pages/order.php" class="menu-item" data-page="order">
                 <span class="menu-icon"><i class="fas fa-shopping-cart"></i></span>
                 <span class="menu-text">Order</span>
             </a>
-            <a href="../pages/sales.php" class="menu-item">
+            <a href="../pages/sales.php" class="menu-item" data-page="sales">
                 <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
                 <span class="menu-text">Sales</span>
             </a>
-            <a href="../pages/stock.php" class="menu-item">
+            <a href="../pages/stock.php" class="menu-item" data-page="stock">
                 <span class="menu-icon"><i class="fas fa-box"></i></span>
                 <span class="menu-text">Stock</span>
             </a>
-            <a href="../pages/supplier.php" class="menu-item">
+            <a href="../pages/supplier.php" class="menu-item" data-page="supplier">
                 <span class="menu-icon"><i class="fas fa-truck"></i></span>
                 <span class="menu-text">Supplier</span>
             </a>
-            <a href="../pages/payment and billing.php" class="menu-item">
+            <a href="../pages/payment-billing.php" class="menu-item" data-page="payment">
                 <span class="menu-icon"><i class="fas fa-credit-card"></i></span>
                 <span class="menu-text">Payment & Billing</span>
             </a>
-            <a href="../pages/return.php" class="menu-item">
+            <a href="../pages/return.php" class="menu-item" data-page="return">
                 <span class="menu-icon"><i class="fas fa-exchange-alt"></i></span>
                 <span class="menu-text">Returns</span>
             </a>
             
             <div class="menu-divider"></div>
             
-            <a href="../pages/setting.php" class="menu-item">
+            <a href="../pages/setting.php" class="menu-item" data-page="setting">
                 <span class="menu-icon"><i class="fas fa-cog"></i></span>
                 <span class="menu-text">Setting</span>
             </a>
-            <a href="../pages/report.php" class="menu-item">
+            <a href="../pages/report.php" class="menu-item" data-page="report">
                 <span class="menu-icon"><i class="fa-solid fa-newspaper"></i></span>
                 <span class="menu-text">report</span>
             </a>
@@ -291,22 +292,36 @@ $user = $result->fetch_assoc();
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
-    const menuItems = document.querySelectorAll('.menu-item');
+    const menuItems = document.querySelectorAll('.menu-item:not(#logout)');
+    const currentPage = window.location.pathname.split('/').pop().toLowerCase();
 
-    // Highlight based on localStorage (persisted selection)
-    const activePage = localStorage.getItem('activePage');
+    // Map menu items to their corresponding pages
+    const pageMap = {
+       'dashboard': 'dashboard.php',
+        'customer': 'customer.php',
+        'order': 'order.php',
+        'sales': 'sales.php',
+        'stock': 'stock.php',
+        'supplier': 'supplier.php',
+        'payment': 'payment-billing.php',
+        'return': 'return.php',
+        'setting': 'setting.php',
+        'report': 'report.php'
+        
+    };
 
     menuItems.forEach(item => {
-        const itemHref = item.getAttribute('href');
-        if (itemHref === activePage) {
+        const pageId = item.getAttribute('data-page');
+        item.classList.remove('active'); // Reset all
+        
+        // If this is the current page, highlight it
+        if (pageMap[pageId] && currentPage.includes(pageMap[pageId])) {
             item.classList.add('active');
         }
-
-        // On click, save the clicked href in localStorage
-        item.addEventListener('click', () => {
-            localStorage.setItem('activePage', itemHref);
-        });
     });
+
+    
+    
 });
 </script>
 

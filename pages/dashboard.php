@@ -239,16 +239,7 @@ include '../addPhp/navBar.php';
     </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add event listeners for menu items
-            const menuItems = document.querySelectorAll('.menu-item');
-            menuItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    menuItems.forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        });
+       
     </script>
 </body>
 </html>
