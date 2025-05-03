@@ -158,7 +158,7 @@ include '../addPhp/navBar.php';
                 <div class="card-title">Supplier</div>
             </a>
             
-            <a href="payment and billing.php" class="card" data-section="payment">
+            <a href="payment-billing.php" class="card" data-section="payment">
                 <div class="card-icon">
                     <span class="icon"><i class="fas fa-credit-card"></i></span>
                 </div>
