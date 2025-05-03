@@ -272,11 +272,11 @@ function getStatusColorClass($status) {
         
         .status-pending {
             background-color:rgba(255, 193, 7, 0.8);
-            color: #212529;
+            color:rgb(56, 63, 70);
         }
         
         .status-shipped {
-            background-color:rgba(0, 123, 255, 0.79);
+            background-color:rgba(0, 73, 152, 0.79);
         }
         
         .status-cancelled {
@@ -482,7 +482,7 @@ function getStatusColorClass($status) {
                             '<?php echo $row['DeliveryDate']; ?>',
                             '<?php echo $row['Status']; ?>'
                         )">
-                            <i class="fas fa-edit"></i> Edit
+                            <i class="fas fa-edit"></i>
                         </button>
                     </td>
                 </tr>

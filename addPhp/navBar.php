@@ -209,7 +209,7 @@ $user = $result->fetch_assoc();
     <div class="sidebar">
         <div class="brand">
             <div class="brand-icon"><i class="fas fa-fire"></i></div>
-            <div class="brand-name">Nadeeka Taylar</div>
+            <div class="brand-name">Nadeeka Taylor</div>
         </div>
         
         <div class="search-container">
@@ -257,7 +257,7 @@ $user = $result->fetch_assoc();
                 <span class="menu-icon"><i class="fas fa-cog"></i></span>
                 <span class="menu-text">Setting</span>
             </a>
-            <a href="../pages/setting.php" class="menu-item">
+            <a href="../pages/report.php" class="menu-item">
                 <span class="menu-icon"><i class="fa-solid fa-newspaper"></i></span>
                 <span class="menu-text">report</span>
             </a>
