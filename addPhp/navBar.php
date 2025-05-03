@@ -18,8 +18,19 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
-?>
 
+
+
+
+$sqlforname = "SELECT system_short_name FROM system_settings WHERE id = 1";
+$resultforname = $conn->query($sqlforname);
+
+if ($resultforname && $resultforname->num_rows > 0) {
+    $row = $resultforname->fetch_assoc();
+    $companyName = $row['system_short_name'];
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -210,7 +221,7 @@ $user = $result->fetch_assoc();
     <div class="sidebar">
         <div class="brand">
             <div class="brand-icon"><i class="fas fa-fire"></i></div>
-            <div class="brand-name">Nadeeka Taylor</div>
+            <div class="brand-name"><?php echo htmlspecialchars($companyName); ?></div>
         </div>
         
         <div class="search-container">

@@ -1,5 +1,44 @@
 <?php
-include '../addPhp/navBar.php';
+include '../addphp/navbar.php';
+require_once '../config/db_config.php';
+
+// Fetch current system settings
+$sql = "SELECT * FROM system_settings WHERE id = 1";
+$result = $conn->query($sql);
+
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $systemName = $row['system_name'];
+    $systemShortName = $row['system_short_name'];
+} else {
+    // Default values if no settings exist
+    $systemName = "Tailor Management System";
+    $systemShortName = "TMS";
+}
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $systemName = $_POST["system_name"];
+    $systemShortName = $_POST["system_short_name"];
+
+    // Prepare update statement
+    $sql = "UPDATE system_settings SET 
+            system_name = ?, 
+            system_short_name = ? 
+            WHERE id = 1";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $systemName, $systemShortName);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('System information updated successfully!'); window.location.href = 'Setting.php';</script>";
+    } else {
+        echo "<script>alert('Error updating system information: " . $conn->error . "');</script>";
+    }
+    $stmt->close();
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -7,9 +46,14 @@ include '../addPhp/navBar.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Information</title>
+    <title>System Settings</title>
     <style>
- 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
         
         .update-container {
             background-color: white;
@@ -40,8 +84,6 @@ include '../addPhp/navBar.php';
             color: #555;
         }
         
-        input[type="email"],
-        input[type="password"],
         input[type="text"] {
             width: 100%;
             padding: 12px;
@@ -89,57 +131,46 @@ include '../addPhp/navBar.php';
         .submit-btn:hover {
             background-color: #45a049;
         }
+        
+        .system-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body>
     <div class="update-container">
-        <h1>UPDATE</h1>
+        <h1 class="system-title"><?php echo htmlspecialchars($systemName); ?></h1>
         
-        <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="Enter email">
-            <p class="hint">We'll never share your email with anyone else.</p>
-        </div>
-        
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter Password">
-        </div>
-        
-        <div class="form-group">
-            <label for="otp">OTP</label>
-            <input type="text" id="otp" placeholder="Enter OTP">
-        </div>
-        
-        <div class="button-group">
-            <button type="button" class="clear-btn">CLEAR</button>
-            <button type="submit" class="submit-btn">SUBMIT</button>
-        </div>
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="system_name">System Name</label>
+                <input type="text" id="system_name" name="system_name" 
+                       value="<?php echo htmlspecialchars($systemName); ?>" 
+                       placeholder="Enter system name">
+            </div>
+            
+            <div class="form-group">
+                <label for="system_short_name">System Short Name</label>
+                <input type="text" id="system_short_name" name="system_short_name" 
+                       value="<?php echo htmlspecialchars($systemShortName); ?>" 
+                       maxlength="16" placeholder="Enter short name">
+                <p class="hint">Maximum 16 characters</p>
+            </div>
+            
+            <div class="button-group">
+                <button type="button" class="clear-btn" onclick="clearForm()">CLEAR</button>
+                <button type="submit" class="submit-btn">UPDATE</button>
+            </div>
+        </form>
     </div>
 
     <script>
-        // JavaScript for form functionality
-        document.querySelector('.clear-btn').addEventListener('click', function() {
-            document.getElementById('email').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('otp').value = '';
-        });
-
-        document.querySelector('.submit-btn').addEventListener('click', function() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const otp = document.getElementById('otp').value;
-            
-            // Basic validation
-            if (!email || !password || !otp) {
-                alert('Please fill in all fields');
-                return;
-            }
-            
-            // Here you would typically send the data to a server
-            console.log('Submitting:', { email, password, otp });
-            alert('Update request submitted!');
-        });
+        function clearForm() {
+            document.getElementById('system_name').value = '';
+            document.getElementById('system_short_name').value = '';
+        }
     </script>
 </body>
 </html>
