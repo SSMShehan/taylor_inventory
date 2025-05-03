@@ -1,3 +1,26 @@
+<?php
+require_once '../config/db_config.php';// Start session
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION["id"])) {
+    header("location: login.php");
+    exit;
+}
+
+// Get logged-in user's ID
+$user_id = $_SESSION["id"];
+
+// Fetch the logged-in user's details
+$sql = "SELECT * FROM users WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +34,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: Arial, sans-serif;
+            
         }
         
         body {
@@ -88,7 +112,11 @@
             transition: all 0.3s;
         }
         
-        .menu-item:hover, .menu-item.active {
+        .menu-item:hover {
+            color: #e67e22;
+            background-color: #252525;
+        }
+        .brandmenu-item.active {
             color: #e67e22;
             background-color: #252525;
         }
@@ -166,6 +194,14 @@
             object-fit: cover;
         }
 
+        #logout{
+            color:rgb(255, 120, 120);
+        }
+        #logout:hover {
+            color:rgb(255, 0, 0);
+        }
+       
+
     </style>
 </head>
 <body>
@@ -182,7 +218,7 @@
         </div>
         
         <nav class="menu">
-            <a href="../pages/dashboard.php" class="menu-item active" >
+            <a href="../pages/dashboard.php" class="menu-item" >
                 <span class="menu-icon"><i class="fas fa-th-large"></i></span>
                 <span class="menu-text">Dashboard</span>
             </a>
@@ -225,6 +261,10 @@
                 <span class="menu-icon"><i class="fa-solid fa-newspaper"></i></span>
                 <span class="menu-text">report</span>
             </a>
+            <a href="../pages/login.php" class="menu-item" id="logout">
+            <span class="menu-icon"><i class="fas fa-sign-out-alt"></i></span>
+             <span class="menu-text">Log out</span></a></li>
+            </a>
         </nav>
     </div>
 
@@ -234,8 +274,12 @@
             <h1 class="page-title">Sales Management System</h1>
             <div class="user-profile">
                 <div class="user-info">
-                    <div class="user-name">Claudia Alves</div>
-                    <div class="user-role">Administrator</div>
+                    <strong>
+                        <?php echo htmlspecialchars($user['username']); ?>
+                    </strong><br>
+                    <samall>
+                        <div class="user-role">Administrator</div>
+                    </samall>
                 </div>
                 <div class="user-avatar">
                     <img src="../img/profile.avif" alt="User Avatar">
@@ -243,19 +287,30 @@
             </div>
         </div>
 
-    
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Add event listeners for menu items
-            const menuItems = document.querySelectorAll('.menu-item');
-            menuItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    menuItems.forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    // Highlight based on localStorage (persisted selection)
+    const activePage = localStorage.getItem('activePage');
+
+    menuItems.forEach(item => {
+        const itemHref = item.getAttribute('href');
+        if (itemHref === activePage) {
+            item.classList.add('active');
+        }
+
+        // On click, save the clicked href in localStorage
+        item.addEventListener('click', () => {
+            localStorage.setItem('activePage', itemHref);
         });
-    </script>
+    });
+});
+</script>
+
+
+
 </body>
 </html>

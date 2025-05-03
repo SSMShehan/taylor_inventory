@@ -123,56 +123,56 @@ include '../addPhp/navBar.php';
 <body>
         <!-- Dashboard Section -->
         <div id="dashboard-section" class="dashboard section active">
-            <a href="#customer" class="card" data-section="customer">
+            <a href="customer.php" class="card" data-section="customer">
                 <div class="card-icon">
                     <span class="icon"><i class="fas fa-user"></i></span>
                 </div>
                 <div class="card-title">Customer</div>
             </a>
             
-            <a href="#order" class="card" data-section="order">
+            <a href="order.php" class="card" data-section="order">
                 <div class="card-icon">
                     <span class="icon"><i class="fas fa-shopping-cart"></i></span>
                 </div>
                 <div class="card-title">Order</div>
             </a>
             
-            <a href="#sales" class="card" data-section="sales">
+            <a href="sales.php" class="card" data-section="sales">
                 <div class="card-icon">
                     <span class="icon"><i class="fas fa-chart-line"></i></span>
                 </div>
                 <div class="card-title">Sales</div>
             </a>
             
-            <a href="#stock" class="card" data-section="stock">
+            <a href="stock.php" class="card" data-section="stock">
                 <div class="card-icon">
                 <span class="icon"><i class="fas fa-box"></i></span>
                 </div>
                 <div class="card-title">Stock</div>
             </a>
             
-            <a href="#supplier" class="card" data-section="supplier">
+            <a href="supplier.php" class="card" data-section="supplier">
                 <div class="card-icon">
                     <span class="icon"><i class="fas fa-truck"></i></span>
                 </div>
                 <div class="card-title">Supplier</div>
             </a>
             
-            <a href="#payment" class="card" data-section="payment">
+            <a href="payment and billing.php" class="card" data-section="payment">
                 <div class="card-icon">
                     <span class="icon"><i class="fas fa-credit-card"></i></span>
                 </div>
                 <div class="card-title">Payment and Billing</div>
             </a>
             
-            <a href="#returns" class="card" data-section="returns">
+            <a href="return.php" class="card" data-section="returns">
                 <div class="card-icon">
                     <span class="icon"><i class="fas fa-exchange-alt"></i></span>
                 </div>
                 <div class="card-title">Returns</div>
             </a>
             
-            <a href="#settings" class="card" data-section="settings">
+            <a href="setting.php" class="card" data-section="settings">
                 <div class="card-icon">
                     <span class="icon"><i class="fas fa-cog"></i></span>
                 </div>
