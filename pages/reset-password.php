@@ -92,138 +92,189 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     mysqli_close($conn);
 }
 ?>
-
  
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Reset Password</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
-
+        
         body {
-            background: #f4f4f4;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+        
+        .left-panel {
+            width: 50%;
+            background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            padding: 20px;
+            border-right: 2px solid #eaeaea;
         }
-
-        .wrapper {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
+        
+        .right-panel {
+            width: 50%;
+            background-color: #1a1a1a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+        
+        .illustration {
+            max-width: 85%;
+            height: auto;
+        }
+        
+        .reset-form {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .reset-title {
+            color: #e67e22;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
             text-align: center;
         }
-
-        h2 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #666;
+        
+        .form-group {
             margin-bottom: 20px;
         }
-
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
+        
         label {
-            font-weight: 600;
-            color: #333;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 400;
+            color: white;
         }
-
+        
         .form-control {
             width: 100%;
-            padding: 10px;
-            margin-top: 5px;
+            padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 4px;
+            background-color: white;
             font-size: 14px;
-            transition: 0.3s;
         }
-
-        .form-control:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        
+        .form-control.is-invalid {
+            border-color: #dc3545;
         }
-
+        
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
         .btn {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-primary {
-            background: #007bff;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background: #0056b3;
-        }
-
-        .btn-link {
             display: block;
-            margin-top: 10px;
-            text-decoration: none;
-            color: #007bff;
+            width: 100%;
+            padding: 12px;
+            background-color: #4a332e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 20px;
         }
-
-        .btn-link:hover {
+        
+        .btn:hover {
+            background-color: #3a2a26;
+        }
+        
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .form-footer a {
+            color: #e67e22;
+            text-decoration: none;
+        }
+        
+        .form-footer a:hover {
             text-decoration: underline;
         }
-
-        .invalid-feedback {
-            color: red;
-            font-size: 12px;
+        
+        .action-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .action-links a {
+            color: #aaa;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        
+        .action-links a:hover {
+            color: #e67e22;
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <h2>Reset Password</h2>
-        <p>Please fill out this form to reset your password.</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
-
-        <div class="form-group">
-                <label>User Name</label>
-                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
-                <span class="invalid-feedback"><?php echo $username_err; ?></span>
+    <div class="container">
+        <div class="left-panel">
+            <img src="../img/tailor-illustration.png" alt="Tailor Illustration" class="illustration">
+        </div>
+        <div class="right-panel">
+            <div class="reset-form">
+                <h1 class="reset-title">NADEEKA TAYLOR</h1>
+                
+                <p style="text-align: center; margin-bottom: 20px;">Reset Your Password</p>
+                
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+                        <span class="invalid-feedback"><?php echo $username_err; ?></span>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" name="new_password" class="form-control <?php echo (!empty($new_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $new_password; ?>">
+                        <span class="invalid-feedback"><?php echo $new_password_err; ?></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>">
+                        <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+                    </div>
+                    
+                    <input type="submit" class="btn" value="Reset Password">
+                    
+                    <div class="action-links">
+                        <a href="login.php">Back to Login</a>
+                    </div>
+                </form>
             </div>
-
-            <div class="form-group">
-                <label>New Password</label>
-                <input type="password" name="new_password" class="form-control <?php echo (!empty($new_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $new_password; ?>">
-                <span class="invalid-feedback"><?php echo $new_password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>">
-                <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
-                <a class="btn-link" href="welcome.php">Cancel</a>
-            </div>
-        </form>
-    </div>    
+        </div>
+    </div>
 </body>
 </html>

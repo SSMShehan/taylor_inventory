@@ -40,6 +40,87 @@ if ($resultforname && $resultforname->num_rows > 0) {
     <title>Nadeeka Taylor - Sales Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+/* Additional CSS for the search functionality */
+.search-container {
+    position: relative;
+    margin: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 15px;
+    padding-right: 40px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #252525;
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #e67e22;
+    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    transition: color 0.3s;
+}
+
+.search-input:focus + .search-icon {
+    color: #e67e22;
+}
+
+.search-results {
+    background-color: #252525;
+    border: 1px solid #444;
+    border-radius: 8px;
+    margin-top: 5px;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: #aaa;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-bottom: 1px solid #333;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover,
+.search-result-item:focus {
+    background-color: #333;
+    color: #e67e22;
+    outline: none;
+}
+
+.search-result-item:focus-visible {
+    box-shadow: 0 0 0 2px #e67e22 inset;
+}
+
+/* Animation for search results */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.search-results {
+    animation: fadeIn 0.2s ease-out;
+}
+
+
+
         * {
             margin: 0;
             padding: 0;
@@ -271,7 +352,7 @@ if ($resultforname && $resultforname->num_rows > 0) {
             </a>
             <a href="../pages/report.php" class="menu-item" data-page="report">
                 <span class="menu-icon"><i class="fa-solid fa-newspaper"></i></span>
-                <span class="menu-text">report</span>
+                <span class="menu-text">Report</span>
             </a>
             <a href="../pages/login.php" class="menu-item" id="logout">
             <span class="menu-icon"><i class="fas fa-sign-out-alt"></i></span>
@@ -334,6 +415,217 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
 });
+
+
+// Enhanced sidebar search functionality
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.querySelector('.search-input');
+    const menuItems = document.querySelectorAll('.menu-item:not(#logout)');
+    const sidebar = document.querySelector('.sidebar');
+    
+    // Create a container for search results
+    const searchResultsContainer = document.createElement('div');
+    searchResultsContainer.classList.add('search-results');
+    searchResultsContainer.style.display = 'none';
+    searchResultsContainer.style.position = 'absolute';
+    searchResultsContainer.style.backgroundColor = '#252525';
+    searchResultsContainer.style.width = 'calc(100% - 40px)';
+    searchResultsContainer.style.borderRadius = '8px';
+    searchResultsContainer.style.marginTop = '5px';
+    searchResultsContainer.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+    searchResultsContainer.style.zIndex = '100';
+    searchResultsContainer.style.maxHeight = '300px';
+    searchResultsContainer.style.overflowY = 'auto';
+    
+    // Insert the search results container after the search input
+    document.querySelector('.search-container').appendChild(searchResultsContainer);
+    
+    // Create menu map for searching
+    const menuMap = [];
+    menuItems.forEach(item => {
+        const menuText = item.querySelector('.menu-text').textContent.trim();
+        const menuIcon = item.querySelector('.menu-icon').innerHTML;
+        const menuLink = item.getAttribute('href');
+        const dataPage = item.getAttribute('data-page');
+        
+        menuMap.push({
+            text: menuText,
+            icon: menuIcon,
+            link: menuLink,
+            dataPage: dataPage
+        });
+    });
+    
+    // Function to filter menu items based on search input
+    function filterMenuItems(searchTerm) {
+        searchTerm = searchTerm.toLowerCase();
+        
+        if (!searchTerm) {
+            searchResultsContainer.style.display = 'none';
+            searchResultsContainer.innerHTML = '';
+            return;
+        }
+        
+        const filteredItems = menuMap.filter(item => 
+            item.text.toLowerCase().includes(searchTerm)
+        );
+        
+        renderSearchResults(filteredItems);
+    }
+    
+    // Function to render search results
+    function renderSearchResults(items) {
+        searchResultsContainer.innerHTML = '';
+        
+        if (items.length === 0) {
+            searchResultsContainer.style.display = 'block';
+            const noResults = document.createElement('div');
+            noResults.style.padding = '15px';
+            noResults.style.color = '#aaa';
+            noResults.style.textAlign = 'center';
+            noResults.textContent = 'No results found';
+            searchResultsContainer.appendChild(noResults);
+            return;
+        }
+        
+        searchResultsContainer.style.display = 'block';
+        
+        items.forEach(item => {
+            const resultItem = document.createElement('a');
+            resultItem.href = item.link;
+            resultItem.classList.add('search-result-item');
+            resultItem.style.display = 'flex';
+            resultItem.style.alignItems = 'center';
+            resultItem.style.padding = '12px 15px';
+            resultItem.style.color = '#aaa';
+            resultItem.style.textDecoration = 'none';
+            resultItem.style.transition = 'all 0.3s';
+            
+            resultItem.innerHTML = `
+                <span class="menu-icon" style="margin-right: 15px; font-size: 16px; width: 24px; text-align: center;">
+                    ${item.icon}
+                </span>
+                <span class="menu-text" style="font-size: 16px;">
+                    ${item.text}
+                </span>
+            `;
+            
+            resultItem.addEventListener('mouseover', function() {
+                this.style.backgroundColor = '#333';
+                this.style.color = '#e67e22';
+            });
+            
+            resultItem.addEventListener('mouseout', function() {
+                this.style.backgroundColor = 'transparent';
+                this.style.color = '#aaa';
+            });
+            
+            searchResultsContainer.appendChild(resultItem);
+        });
+    }
+    
+    // Add event listener for search input
+    searchInput.addEventListener('input', function() {
+        filterMenuItems(this.value);
+    });
+    
+    // Close search results when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!searchResultsContainer.contains(event.target) && event.target !== searchInput) {
+            searchResultsContainer.style.display = 'none';
+        }
+    });
+    
+    // Show results again when focusing on input
+    searchInput.addEventListener('focus', function() {
+        if (this.value) {
+            filterMenuItems(this.value);
+        }
+    });
+    
+    // Handle keyboard navigation in search results
+    searchInput.addEventListener('keydown', function(e) {
+        if (searchResultsContainer.style.display === 'none') return;
+        
+        const resultItems = searchResultsContainer.querySelectorAll('.search-result-item');
+        if (resultItems.length === 0) return;
+        
+        const firstResult = resultItems[0];
+        const lastResult = resultItems[resultItems.length - 1];
+        
+        // Find currently focused item
+        const focusedItem = document.activeElement;
+        let currentIndex = -1;
+        
+        for (let i = 0; i < resultItems.length; i++) {
+            if (resultItems[i] === focusedItem) {
+                currentIndex = i;
+                break;
+            }
+        }
+        
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                if (currentIndex === -1) {
+                    firstResult.focus();
+                } else if (currentIndex < resultItems.length - 1) {
+                    resultItems[currentIndex + 1].focus();
+                }
+                break;
+                
+            case 'ArrowUp':
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    resultItems[currentIndex - 1].focus();
+                } else if (currentIndex === 0) {
+                    searchInput.focus();
+                }
+                break;
+                
+            case 'Escape':
+                e.preventDefault();
+                searchResultsContainer.style.display = 'none';
+                searchInput.focus();
+                break;
+                
+            case 'Enter':
+                if (currentIndex !== -1) {
+                    e.preventDefault();
+                    resultItems[currentIndex].click();
+                }
+                break;
+        }
+    });
+    
+    // Initialize menu active state
+    const currentPage = window.location.pathname.split('/').pop().toLowerCase();
+    
+    // Map menu items to their corresponding pages
+    const pageMap = {
+        'dashboard': 'dashboard.php',
+        'customer': 'customer.php',
+        'order': 'order.php',
+        'sales': 'sales.php',
+        'stock': 'stock.php',
+        'supplier': 'supplier.php',
+        'payment': 'payment-billing.php',
+        'return': 'return.php',
+        'setting': 'setting.php',
+        'report': 'report.php'
+    };
+    
+    menuItems.forEach(item => {
+        const pageId = item.getAttribute('data-page');
+        item.classList.remove('active'); // Reset all
+        
+        // If this is the current page, highlight it
+        if (pageMap[pageId] && currentPage.includes(pageMap[pageId])) {
+            item.classList.add('active');
+        }
+    });
+});
+
 </script>
 
 

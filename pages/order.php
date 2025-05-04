@@ -267,7 +267,7 @@ function getStatusColorClass($status) {
         }
         
         .status-in-progress {
-            background-color: #17a2b8;
+            background-color:rgb(50, 198, 220);
         }
         
         .status-pending {
@@ -567,7 +567,6 @@ function getStatusColorClass($status) {
                 <label for="editStatus">Status:</label>
                 <select id="editStatus" name="Status" required>
                     <option value="Pending">Pending</option>
-                    <option value="Processing">Processing</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Shipped">Shipped</option>
                     <option value="Delivered">Delivered</option>
@@ -628,7 +627,6 @@ function getStatusColorClass($status) {
                 <label for="createStatus">Status:</label>
                 <select id="createStatus" name="Status" required>
                     <option value="Pending" selected>Pending</option>
-                    <option value="Processing">Processing</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Shipped">Shipped</option>
                     <option value="Delivered">Delivered</option>
