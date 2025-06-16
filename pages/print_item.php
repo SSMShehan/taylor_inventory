@@ -65,7 +65,7 @@ $formattedDate = date('F j, Y, g:i a', strtotime($item['DeliveryDate']));
         .company-name {
             font-size: 28px;
             font-weight: bold;
-            color:rgb(255, 111, 0);
+            color:#007bff;
             margin-bottom: 5px;
         }
         .company-address {
@@ -79,7 +79,7 @@ $formattedDate = date('F j, Y, g:i a', strtotime($item['DeliveryDate']));
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 5px;
-            color:rgb(255, 111, 0);
+            color:#007bff;
         }
         .date {
             color: #777;
@@ -91,7 +91,7 @@ $formattedDate = date('F j, Y, g:i a', strtotime($item['DeliveryDate']));
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
-            color:rgb(255, 111, 0);
+            color:#007bff;
         }
         .customer-name {
             font-weight: bold;
@@ -137,7 +137,7 @@ $formattedDate = date('F j, Y, g:i a', strtotime($item['DeliveryDate']));
             text-align: center;
         }
         .btn-print {
-            background-color:rgba(0, 186, 16, 0.65);
+            background-color:#007bff;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -146,7 +146,7 @@ $formattedDate = date('F j, Y, g:i a', strtotime($item['DeliveryDate']));
             font-size: 16px;
         }
         .btn-print:hover {
-            background-color:rgb(30, 209, 51);
+            background-color:#0056b3;
         }
         .btn-back {
             background-color: #6c757d;
@@ -179,11 +179,11 @@ $formattedDate = date('F j, Y, g:i a', strtotime($item['DeliveryDate']));
     <div class="invoice-container">
         <div class="invoice-header">
             <div class="company-details">
-                <div class="company-name">NADEEKA TAYLOR</div>
-                <div class="company-address">123 Business Street</div>
-                <div class="company-address">Colombo, Western, 1100</div>
-                <div class="company-address">Phone: (123) 456-7890</div>
-                <div class="company-address">Email: nadeekataylor@company.com</div>
+                <div class="company-name">GSM Garment</div>
+                <div class="company-address">102 Business Street</div>
+                <div class="company-address">Colombo, North, 1200</div>
+                <div class="company-address">Phone: (+94) 11 222 2222</div>
+                <div class="company-address">Email: gsmgarment@company.com</div>
             </div>
             <div class="invoice-details">
                 <div class="invoice-id">INVOICE #<?php echo htmlspecialchars($item['ItemID']); ?></div>
@@ -239,7 +239,7 @@ $formattedDate = date('F j, Y, g:i a', strtotime($item['DeliveryDate']));
         </div>
         
         <div class="print-button">
-            <button class="btn-back" onclick="window.location.href='payment and billing.php'">Back</button>
+            <button class="btn-back" onclick="window.location.href='payment-billing.php'">Back</button>
             <button class="btn-print" onclick="window.print()">Print Invoice</button>
         </div>
     </div>

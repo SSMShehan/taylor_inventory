@@ -62,16 +62,12 @@ $conn->close();
             padding: 30px;
             width: 100%;
             max-width: 600px;
-            margin-left: 320px;
-            margin-top: 50px;
+            margin-left: 280px;
+            margin-top: 120px;
+            height:450px;
         }
         
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 24px;
-        }
+   
         
         .form-group {
             margin-bottom: 20px;
@@ -84,7 +80,7 @@ $conn->close();
             color: #555;
         }
         
-        input[type="text"] {
+        input[type="text1"] {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
@@ -105,7 +101,7 @@ $conn->close();
             margin-top: 25px;
         }
         
-        button {
+       .clear-btn ,.submit-btn  {
             padding: 12px 20px;
             border: none;
             border-radius: 4px;
@@ -115,21 +111,22 @@ $conn->close();
         }
         
         .clear-btn {
-            background-color: #f0f0f0;
-            color: #333;
+            background-color:rgb(209, 95, 95);
+            color: white;
         }
         
         .clear-btn:hover {
-            background-color: #e0e0e0;
+            background-color:rgb(252, 51, 51);
+            
         }
         
         .submit-btn {
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: white;
         }
         
         .submit-btn:hover {
-            background-color: #45a049;
+            background-color:  #0056b3;
         }
         
         .system-title {
@@ -146,14 +143,14 @@ $conn->close();
         <form method="POST" action="">
             <div class="form-group">
                 <label for="system_name">System Name</label>
-                <input type="text" id="system_name" name="system_name" 
+                <input type="text1" id="system_name" name="system_name" 
                        value="<?php echo htmlspecialchars($systemName); ?>" 
                        placeholder="Enter system name">
             </div>
             
             <div class="form-group">
                 <label for="system_short_name">System Short Name</label>
-                <input type="text" id="system_short_name" name="system_short_name" 
+                <input type="text1" id="system_short_name" name="system_short_name" 
                        value="<?php echo htmlspecialchars($systemShortName); ?>" 
                        maxlength="16" placeholder="Enter short name">
                 <p class="hint">Maximum 16 characters</p>

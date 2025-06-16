@@ -134,85 +134,59 @@ function getPaymentMethodColorClass($paymentMethod) {
     <title>Sales Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .content{
-            padding: 50px;
-        }
-     
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 40px;
-        }
-        
-        .pagination a, .pagination span, .pagination-button {
-            padding: 8px 12px;
-            text-decoration: none;
-            border: 1px solid #ddd;
-            color: #333;
-            border-radius: 4px;
-        }
-        
-        .pagination a:hover, .pagination-button:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .pagination .active {
-            background-color: #6b4c35;
-            color: white;
-            border-color: #6b4c35;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Main Layout Structure */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
             padding: 0;
-        }
-        
-        .pagination .disabled {
-            color: #aaa;
-            pointer-events: none;
-            cursor: default;
-        }
-        
-        /* New pagination container style */
-        .pagination-container {
             display: flex;
-            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 20px;
+            transition: margin-left 0.3s;
+            margin-top: 70px; 
+
+        }
+
+        /* Header Container */
+        .header-container {
+             display: flex;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            padding: 5px;
-            background-color: #fff;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        
-        .pagination-info {
-            margin: 0 15px;
-            font-size: 16px;
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
         }
-        
-        .pagination-button {
-            background-color: #fff;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            padding: 10px 20px;
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+            color: #2c3e50;
         }
-        
-        .pagination-button:hover {
-            background-color: #f5f5f5;
+
+        tr:hover {
+           background-color: #f5f5f5;
         }
-        
-        .pagination-button.disabled {
-            color: #aaa;
-            cursor: default;
-        }
-        
+
+        /* Payment Indicator */
         .payment-indicator {
             padding: 6px 12px;
             border-radius: 20px;
@@ -224,24 +198,18 @@ function getPaymentMethodColorClass($paymentMethod) {
         }
         
         .payment-cash {
-            background-color:rgba(30, 219, 74, 0.8);
+            background-color: rgba(30, 219, 74, 0.8);
         }
         
         .payment-card {
-            background-color:rgba(0, 123, 255, 0.67);
+            background-color: rgba(0, 123, 255, 0.67);
         }
         
         .payment-bank {
-            background-color:rgba(108, 117, 125, 0.85);
+            background-color: rgba(108, 117, 125, 0.85);
         }
 
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
+        /* Buttons */
         .btn {
             padding: 10px 15px;
             border: none;
@@ -252,12 +220,12 @@ function getPaymentMethodColorClass($paymentMethod) {
         }
         
         .btn-create {
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
         }
         
         .btn-create:hover {
-            background-color: #218838;
+            background-color:  #0056b3;
         }
         
         .btn-edit {
@@ -269,7 +237,16 @@ function getPaymentMethodColorClass($paymentMethod) {
             background-color: #e0a800;
         }
         
-        .btn-submit {
+        .btn-delete {
+            background-color: rgba(220, 53, 70, 0.83);
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background-color: #bd2130;
+        }
+
+         .btn-submit {
             background-color: #007bff;
             color: white;
         }
@@ -286,16 +263,72 @@ function getPaymentMethodColorClass($paymentMethod) {
         .btn-cancel:hover {
             background-color: #5a6268;
         }
-        
-        .btn-delete {
-            background-color:rgba(220, 53, 70, 0.83);
-            color: white;
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        /* Pagination */
+        .pagination-container {
+              display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            padding: 5px;
+            background-color: #fff;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .btn-delete:hover {
-            background-color: #bd2130;
+        .pagination-info {
+            margin: 0 15px;
+            font-size: 14px;
         }
         
+        .pagination-button {
+            background-color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px 20px;
+        }
+        
+        .pagination-button:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .pagination-button.disabled {
+            color: #aaa;
+            cursor: not-allowed;
+            background-color: #f8f9fa;
+        }
+
+        /* Message Styling */
+        .message {
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Modal Styling */
         .modal {
             display: none;
             position: fixed;
@@ -311,11 +344,11 @@ function getPaymentMethodColorClass($paymentMethod) {
         
         .modal-content {
             background-color: #fff;
-            width: 80%;
+            width: 90%;
             max-width: 500px;
             padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         .form-group {
@@ -325,7 +358,8 @@ function getPaymentMethodColorClass($paymentMethod) {
         label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: 500;
+            color: #495057;
         }
         
         input, select {
@@ -333,51 +367,39 @@ function getPaymentMethodColorClass($paymentMethod) {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            box-sizing: border-box;
+            font-size: 14px;
         }
         
-        .message {
-            padding: 10px;
-            margin: 15px 0;
-            border-radius: 4px;
-        }
-        
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
             margin-top: 20px;
         }
-        
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .content {
+                margin-left: 0;
+            }
         }
-        
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 5px;
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
         }
     </style>
 </head>

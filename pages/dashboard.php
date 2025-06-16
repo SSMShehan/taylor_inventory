@@ -4,242 +4,155 @@ include '../addPhp/navBar.php';
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Sales Management System</title>
-    <style>
-        /* Main content styles */
-.main-content {
-    flex-grow: 1;
-    background-color: #f0f0f0;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Sales Management System</title>
+  <style>
+    .dashboard-container {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1900px;
+    }
 
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-}
+    .dashboard-header {
+      position: absolute;
+      text-align: center;
+      margin: 30px;
+      padding: auto;
+    }
 
-.page-title {
-    font-size: 28px;
-    font-weight: bold;
-}
+    .cards-grid {
+      margin-left: 30px;
+      margin-top: 100px;
+      padding: auto;
+      display: flex;
+      flex-wrap: wrap;
+      position: absolute;
+      gap: 20px;
+    }
 
-.user-profile {
-    display: flex;
-    align-items: center;
-}
+    .cards-grid a {
+      list-style: none;
+      text-decoration: none;
+    }
 
-.user-info {
-    text-align: right;
-    margin-right: 15px;
-}
+    .dashboard-card {
+      display: flex;
+      width: 280px;
+      height: 100px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
 
-.user-name {
-    font-weight: bold;
-}
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+    }
 
-.user-role {
-    color: #777;
-    font-size: 14px;
-}
+    .card-icon1 { font-size: 2rem; color: #FFE102; margin-bottom: 10px; }
+    .card-icon2 { font-size: 2rem; color: #3CA200; margin-bottom: 10px; }
+    .card-icon3 { font-size: 2rem; color: #002366; margin-bottom: 10px; }
+    .card-icon4 { font-size: 2rem; color: #808080; margin-bottom: 10px; }
+    .card-icon5 { font-size: 2rem; color: #008080; margin-bottom: 10px; }
+    .card-icon6 { font-size: 2rem; color: #FF7F50; margin-bottom: 10px; }
+    .card-icon7 { font-size: 2rem; color: #bdbdff; margin-bottom: 10px; }
+    .card-icon8 { font-size: 2rem; color: #000000; margin-bottom: 10px; }
+    .card-icon9 { font-size: 2rem; color: #FF0000; margin-bottom: 10px; }
 
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
+    .card-content h3 {
+      margin: 5px 0px 0px 10px;
+      color: #333;
+    }
 
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Dashboard grid styles */
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 30px;
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 180px;
-    text-decoration: none;
-    color: #333;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.card-icon {
-    font-size: 64px;
-    margin-bottom: 15px;
-}
-
-.card-title {
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-}
-
-/* Icons */
-.icon {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.dashboard .icon {
-    width: 64px;
-    height: 64px;
-}
-    </style>
+    .card-value {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-left: 10px;
+      color: #2c3e50;
+    }
+  </style>
 </head>
 <body>
-        <!-- Dashboard Section -->
-        <div id="dashboard-section" class="dashboard section active">
-            <a href="customer.php" class="card" data-section="customer">
-                <div class="card-icon">
-                    <span class="icon"><i class="fas fa-user"></i></span>
-                </div>
-                <div class="card-title">Customer</div>
-            </a>
-            
-            <a href="order.php" class="card" data-section="order">
-                <div class="card-icon">
-                    <span class="icon"><i class="fas fa-shopping-cart"></i></span>
-                </div>
-                <div class="card-title">Order</div>
-            </a>
-            
-            <a href="sales.php" class="card" data-section="sales">
-                <div class="card-icon">
-                    <span class="icon"><i class="fas fa-chart-line"></i></span>
-                </div>
-                <div class="card-title">Sales</div>
-            </a>
-            
-            <a href="stock.php" class="card" data-section="stock">
-                <div class="card-icon">
-                <span class="icon"><i class="fas fa-box"></i></span>
-                </div>
-                <div class="card-title">Stock</div>
-            </a>
-            
-            <a href="supplier.php" class="card" data-section="supplier">
-                <div class="card-icon">
-                    <span class="icon"><i class="fas fa-truck"></i></span>
-                </div>
-                <div class="card-title">Supplier</div>
-            </a>
-            
-            <a href="payment-billing.php" class="card" data-section="payment">
-                <div class="card-icon">
-                    <span class="icon"><i class="fas fa-credit-card"></i></span>
-                </div>
-                <div class="card-title">Payment and Billing</div>
-            </a>
-            
-            <a href="return.php" class="card" data-section="returns">
-                <div class="card-icon">
-                    <span class="icon"><i class="fas fa-exchange-alt"></i></span>
-                </div>
-                <div class="card-title">Returns</div>
-            </a>
-            
-            <a href="setting.php" class="card" data-section="settings">
-                <div class="card-icon">
-                    <span class="icon"><i class="fas fa-cog"></i></span>
-                </div>
-                <div class="card-title">Setting</div>
-            </a>
-        </div>
-        
-        <!-- Content placeholder for other sections -->
-        <div id="customer-section" class="section" style="display:none;">
-            <div style="padding: 30px;">
-                <h2>Customer Management</h2>
-                <p>Customer details and management interface would go here.</p>
-            </div>
-        </div>
-        
-        <div id="order-section" class="section" style="display:none;">
-            <div style="padding: 30px;">
-                <h2>Order Management</h2>
-                <p>Order details and management interface would go here.</p>
-            </div>
-        </div>
-        
-        <div id="sales-section" class="section" style="display:none;">
-            <div style="padding: 30px;">
-                <h2>Sales Analytics</h2>
-                <p>Sales reports and analytics would go here.</p>
-            </div>
-        </div>
-        
-        <div id="stock-section" class="section" style="display:none;">
-            <div style="padding: 30px;">
-                <h2>Stock Management</h2>
-                <p>Inventory control and stock management would go here.</p>
-            </div>
-        </div>
-        
-        <div id="supplier-section" class="section" style="display:none;">
-            <div style="padding: 30px;">
-                <h2>Supplier Management</h2>
-                <p>Supplier details and management interface would go here.</p>
-            </div>
-        </div>
-        
-        <div id="payment-section" class="section" style="display:none;">
-            <div style="padding: 30px;">
-                <h2>Payment and Billing</h2>
-                <p>Payment processing and billing management would go here.</p>
-            </div>
-        </div>
-        
-        <div id="returns-section" class="section" style="display:none;">
-            <div style="padding: 30px;">
-                <h2>Returns Management</h2>
-                <p>Product returns and refund processing would go here.</p>
-            </div>
-        </div>
-        
-        <div id="settings-section" class="section" style="display:none;">
-            <div style="padding: 30px;">
-                <h2>System Settings</h2>
-                <p>Application settings and configuration options would go here.</p>
-            </div>
-        </div>
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
     </div>
+
+    <div class="cards-grid">
+      <a href="customer.php">
+        <div class="dashboard-card">
+          <div class="card-icon1"><i class="fas fa-user"></i></div>
+          <div class="card-content">
+            <h3>Customer</h3>
+          </div>
+        </div>
+      </a>
+
+      <a href="order.php">
+        <div class="dashboard-card">
+          <div class="card-icon2"><i class="fas fa-shopping-cart"></i></div>
+          <div class="card-content">
+            <h3>Order</h3>
+          </div>
+        </div>
+      </a>
+
+      <a href="sales.php">
+        <div class="dashboard-card">
+          <div class="card-icon3"><i class="fas fa-chart-line"></i></div>
+          <div class="card-content">
+            <h3>Sales</h3>
+          </div>
+        </div>
+      </a>
+
+      <a href="stock.php">
+        <div class="dashboard-card">
+          <div class="card-icon4"><i class="fas fa-box"></i></div>
+          <div class="card-content">
+            <h3>Stock</h3>
+          </div>
+        </div>
+      </a>
+
+      <a href="supplier.php">
+        <div class="dashboard-card">
+          <div class="card-icon5"><i class="fas fa-truck"></i></div>
+          <div class="card-content">
+            <h3>Supplier</h3>
+          </div>
+        </div>
+      </a>
+
+      <a href="payment-billing.php">
+        <div class="dashboard-card">
+          <div class="card-icon6"><i class="fas fa-credit-card"></i></div>
+          <div class="card-content">
+            <h3>Payment and Billing</h3>
+          </div>
+        </div>
+      </a>
+
+      <a href="return.php">
+        <div class="dashboard-card">
+          <div class="card-icon7"><i class="fas fa-exchange-alt"></i></div>
+          <div class="card-content">
+            <h3>Returns</h3>
+          </div>
+        </div>
+      </a>
+
+      <a href="setting.php">
+        <div class="dashboard-card">
+          <div class="card-icon8"><i class="fas fa-cog"></i></div>
+          <div class="card-content">
+            <h3>Setting</h3>
+          </div>
+        </div>
+      </a>
     </div>
-    <script>
-       
-    </script>
+  </div>
 </body>
 </html>

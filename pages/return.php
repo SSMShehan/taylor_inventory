@@ -127,7 +127,10 @@ function getReasonColorClass($reason) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .content{
-            padding: 50px;
+            flex: auto;
+            padding: 20px;
+            transition: margin-left 0.3s;
+            margin-top: 70px; 
         }
      
         .pagination {
@@ -248,12 +251,12 @@ function getReasonColorClass($reason) {
         }
         
         .btn-create {
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
         }
         
         .btn-create:hover {
-            background-color: #218838;
+            background-color:  #0056b3;
         }
         
         .btn-edit {

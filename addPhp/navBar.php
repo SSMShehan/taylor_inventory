@@ -1,5 +1,6 @@
 <?php
-require_once '../config/db_config.php';// Start session
+require_once '../config/db_config.php';
+// Start session
 session_start();
 
 // Check if user is logged in
@@ -19,9 +20,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-
-
-
 $sqlforname = "SELECT system_short_name FROM system_settings WHERE id = 1";
 $resultforname = $conn->query($sqlforname);
 
@@ -35,600 +33,548 @@ if ($resultforname && $resultforname->num_rows > 0) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nadeeka Taylor - Sales Management System</title>
+    <title><?php echo htmlspecialchars($companyName); ?> - Sales Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-/* Additional CSS for the search functionality */
-.search-container {
-    position: relative;
-    margin: 20px;
-}
-
-.search-input {
-    width: 100%;
-    padding: 10px 15px;
-    padding-right: 40px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: #252525;
-    color: #fff;
-    font-size: 16px;
-    transition: all 0.3s;
-}
-
-.search-input:focus {
-    outline: none;
-    border-color: #e67e22;
-    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.2);
-}
-
-.search-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-    transition: color 0.3s;
-}
-
-.search-input:focus + .search-icon {
-    color: #e67e22;
-}
-
-.search-results {
-    background-color: #252525;
-    border: 1px solid #444;
-    border-radius: 8px;
-    margin-top: 5px;
-}
-
-.search-result-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 15px;
-    color: #aaa;
-    text-decoration: none;
-    transition: all 0.3s;
-    border-bottom: 1px solid #333;
-}
-
-.search-result-item:last-child {
-    border-bottom: none;
-}
-
-.search-result-item:hover,
-.search-result-item:focus {
-    background-color: #333;
-    color: #e67e22;
-    outline: none;
-}
-
-.search-result-item:focus-visible {
-    box-shadow: 0 0 0 2px #e67e22 inset;
-}
-
-/* Animation for search results */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.search-results {
-    animation: fadeIn 0.2s ease-out;
-}
-
-
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
-            
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
+            background-color: #ECF6FE;
+             display: flex;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            background: #2e2e2e;
+            color: #ECF6FE;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logo-icon {
+            background: #fff;
+            color: #2e2e2e;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            width: 200px;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            width: 250px;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .notif-btn, .message-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .profile-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #d4af37;
+            color: #2e2e2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .profile-name {
+            font-weight: 500;
+        }
+
+        /* Dashboard container */
+        .dashboard-container {
             display: flex;
             min-height: 100vh;
+            padding-top: 56px; /* To account for fixed navbar */
         }
 
         /* Sidebar styles */
         .sidebar {
-            width: 270px;
-            background-color: #1a1a1a;
-            color: #fff;
+            width: 250px;
+            background-color: #2e2e2e;
+            color: white;
             padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
+            transition: all 0.3s;
+            position: fixed;
+            height: calc(100vh - 56px);
+            overflow-y: auto;
         }
-        
-        .brand {
-            display: flex;
-            align-items: center;
+
+        .sidebar-header {
             padding: 0 20px 20px;
-            border-bottom: 1px solid #333;
-            margin-bottom: 10px;
-        }
-        
-        .brand-icon {
-            color: #e67e22;
-            font-size: 24px;
-            margin-right: 15px;
-        }
-        
-        .brand-name {
-            font-size: 22px;
-            font-weight: bold;
-            color: #fff;
-        }
-        
-        .search-container {
-            position: relative;
-            margin: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .search-input {
-    width: 100%;
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: transparent;
-    color: var(--light-text);
-    font-size: 16px;
-}
-
-.search-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-}
-
-/* Menu styles */
-.menu {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 600;
         }
-        
+
+        .menu-items {
+            padding: 15px 0;
+        }
+
+        .menu-category {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #7f8c8d;
+            margin: 20px 20px 10px;
+            letter-spacing: 1px;
+        }
+
         .menu-item {
+            list-style: none;
+        }
+
+        .menu-link {
             display: flex;
             align-items: center;
-            padding: 12px 20px;
-            color: #aaa;
+            color: #ecf0f1;
             text-decoration: none;
+            padding: 12px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
             transition: all 0.3s;
         }
-        
-        .menu-item:hover {
-            color: #e67e22;
-            background-color: #252525;
-        }
-        /* Add this to your CSS */
-        .menu-item.active {
-        color: #e67e22;
-        background-color: #252525;
-        }
-        
-        .menu-icon {
-            margin-right: 15px;
-            font-size: 16px;
-            width: 24px;
-            text-align: center;
-        }
-        
-        .menu-text {
-            font-size: 16px;
-        }
-        
-        .menu-divider {
-            height: 1px;
-            background-color: #333;
-            margin: 10px 0;
+
+        .menu-link:hover {
+            background-color: #ECF6FE;
+            color: #000000;
+            border-radius: 100px 0px 0px 100px;
         }
 
-        /* Main content styles */
+        .menu-link.active {
+            background-color: #ECF6FE;
+            color: #000000;
+            border-radius: 100px 0px 0px 100px;
+            font-weight: 500;
+        }
+
+        .menu-icon {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .menu-text {
+            font-size: 15px;
+        }
+
+        /* Main content area */
         .main-content {
             flex-grow: 1;
-            background-color: #f0f0f0;
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #ECF6FE;
+            min-height: calc(100vh - 56px);
+            transition: all 0.3s;
         }
-        
-        .top-bar {
+
+        .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
-            background-color: #fff;
-            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
         }
-        
+
         .page-title {
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .user-profile {
-            display: flex;
-            align-items: center;
-        }
-        
-        .user-info {
-            text-align: right;
-            margin-right: 15px;
-        }
-        
-        .user-name {
-            font-weight: bold;
-        }
-        
-        .user-role {
-            color: #777;
-            font-size: 14px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
         }
 
-        #logout{
-            color:rgb(255, 120, 120);
+        .page-actions {
+            display: flex;
+            gap: 10px;
         }
-        #logout:hover {
-            color:rgb(255, 0, 0);
-        }
-       
 
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 900;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-input {
+                width: 150px;
+            }
+
+            .search-input:focus {
+                width: 180px;
+            }
+
+            .profile-name {
+                display: none;
+            }
+        }
+
+        /* Logout link style */
+        .logout-link {
+            color: #e74c3c;
+        }
+
+        .logout-link:hover {
+            color: #c0392b;
+        }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="brand">
-            <div class="brand-icon"><i class="fas fa-fire"></i></div>
-            <div class="brand-name"><?php echo htmlspecialchars($companyName); ?></div>
-        </div>
-        
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Search">
-            <span class="search-icon"><i class="fas fa-search"></i></span>
-        </div>
-        
-        <nav class="menu">
-            <a href="../pages/dashboard.php" class="menu-item" data-page="dashboard" >
-                <span class="menu-icon"><i class="fas fa-th-large"></i></span>
-                <span class="menu-text">Dashboard</span>
-            </a>
-            <a href="../pages/customer.php" class="menu-item" data-page="customer" >
-                <span class="menu-icon"><i class="fas fa-user"></i></span>
-                <span class="menu-text">Customer</span>
-            </a>
-            <a href="../pages/order.php" class="menu-item" data-page="order">
-                <span class="menu-icon"><i class="fas fa-shopping-cart"></i></span>
-                <span class="menu-text">Order</span>
-            </a>
-            <a href="../pages/sales.php" class="menu-item" data-page="sales">
-                <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
-                <span class="menu-text">Sales</span>
-            </a>
-            <a href="../pages/stock.php" class="menu-item" data-page="stock">
-                <span class="menu-icon"><i class="fas fa-box"></i></span>
-                <span class="menu-text">Stock</span>
-            </a>
-            <a href="../pages/supplier.php" class="menu-item" data-page="supplier">
-                <span class="menu-icon"><i class="fas fa-truck"></i></span>
-                <span class="menu-text">Supplier</span>
-            </a>
-            <a href="../pages/payment-billing.php" class="menu-item" data-page="payment">
-                <span class="menu-icon"><i class="fas fa-credit-card"></i></span>
-                <span class="menu-text">Payment & Billing</span>
-            </a>
-            <a href="../pages/return.php" class="menu-item" data-page="return">
-                <span class="menu-icon"><i class="fas fa-exchange-alt"></i></span>
-                <span class="menu-text">Returns</span>
-            </a>
-            
-            <div class="menu-divider"></div>
-            
-            <a href="../pages/setting.php" class="menu-item" data-page="setting">
-                <span class="menu-icon"><i class="fas fa-cog"></i></span>
-                <span class="menu-text">Setting</span>
-            </a>
-            <a href="../pages/report.php" class="menu-item" data-page="report">
-                <span class="menu-icon"><i class="fa-solid fa-newspaper"></i></span>
-                <span class="menu-text">Report</span>
-            </a>
-            <a href="../pages/login.php" class="menu-item" id="logout">
-            <span class="menu-icon"><i class="fas fa-sign-out-alt"></i></span>
-             <span class="menu-text">Log out</span></a></li>
-            </a>
-        </nav>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="top-bar">
-            <h1 class="page-title">Sales Management System</h1>
-            <div class="user-profile">
-                <div class="user-info">
-                    <strong>
-                        <?php echo htmlspecialchars($user['username']); ?>
-                    </strong><br>
-                    <samall>
-                        <div class="user-role">Administrator</div>
-                    </samall>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="left-section">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-fire"></i>
                 </div>
-                <div class="user-avatar">
-                    <img src="../img/profile.avif" alt="User Avatar">
-                </div>
+                <div class="logo-text"><?php echo htmlspecialchars($companyName); ?></div>
             </div>
         </div>
 
+        <div class="right-section">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <button class="notif-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="message-btn">
+                <i class="fas fa-envelope"></i>
+                <span class="notification-badge">5</span>
+            </button>
+            <div class="profile">
+                <div class="profile-avatar">
+                    <?php echo strtoupper(substr(htmlspecialchars($user['username']), 0, 1)); ?>
+                </div>
+                <span class="profile-name"><?php echo htmlspecialchars($user['username']); ?></span>
+            </div>
+        </div>
+    </nav>
 
-<script>
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Menu</h2>
+            </div>
+            
+            <ul class="menu-items">
+                <li class="menu-item">
+                    <a href="../pages/dashboard.php" class="menu-link" data-page="dashboard">
+                        <span class="menu-icon"><i class="fas fa-th-large"></i></span>
+                        <span class="menu-text">Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="menu-category">Management</li>
+                
+                <li class="menu-item">
+                    <a href="../pages/customer.php" class="menu-link" data-page="customer">
+                        <span class="menu-icon"><i class="fas fa-users"></i></span>
+                        <span class="menu-text">Customers</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item">
+                    <a href="../pages/order.php" class="menu-link" data-page="order">
+                        <span class="menu-icon"><i class="fas fa-shopping-cart"></i></span>
+                        <span class="menu-text">Orders</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item">
+                    <a href="../pages/sales.php" class="menu-link" data-page="sales">
+                        <span class="menu-icon"><i class="fas fa-chart-line"></i></span>
+                        <span class="menu-text">Sales</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item">
+                    <a href="../pages/stock.php" class="menu-link" data-page="stock">
+                        <span class="menu-icon"><i class="fas fa-boxes"></i></span>
+                        <span class="menu-text">Inventory</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item">
+                    <a href="../pages/supplier.php" class="menu-link" data-page="supplier">
+                        <span class="menu-icon"><i class="fas fa-truck"></i></span>
+                        <span class="menu-text">Suppliers</span>
+                    </a>
+                </li>
+                
+                <li class="menu-category">Transactions</li>
+                
+                <li class="menu-item">
+                    <a href="../pages/payment-billing.php" class="menu-link" data-page="payment">
+                        <span class="menu-icon"><i class="fas fa-credit-card"></i></span>
+                        <span class="menu-text">Payments</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item">
+                    <a href="../pages/return.php" class="menu-link" data-page="return">
+                        <span class="menu-icon"><i class="fas fa-exchange-alt"></i></span>
+                        <span class="menu-text">Returns</span>
+                    </a>
+                </li>
+                
+                <li class="menu-category">System</li>
+                
+                <li class="menu-item">
+                    <a href="../pages/report.php" class="menu-link" data-page="report">
+                        <span class="menu-icon"><i class="fas fa-chart-pie"></i></span>
+                        <span class="menu-text">Reports</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item">
+                    <a href="../pages/setting.php" class="menu-link" data-page="setting">
+                        <span class="menu-icon"><i class="fas fa-cog"></i></span>
+                        <span class="menu-text">Settings</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item">
+                    <a href="../pages/login.php" class="menu-link logout-link">
+                        <span class="menu-icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span class="menu-text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
 
-document.addEventListener('DOMContentLoaded', function () {
-    const menuItems = document.querySelectorAll('.menu-item:not(#logout)');
-    const currentPage = window.location.pathname.split('/').pop().toLowerCase();
+        <!-- Main Content Area -->
+        <main class="main-content" id="mainContent">
+               
+            
+            <!-- Your page content will go here -->
+            <div class="content-area">
+                <!-- Dashboard widgets, tables, etc. -->
+            </div>
+        </main>
+    </div>
 
-    // Map menu items to their corresponding pages
-    const pageMap = {
-       'dashboard': 'dashboard.php',
-        'customer': 'customer.php',
-        'order': 'order.php',
-        'sales': 'sales.php',
-        'stock': 'stock.php',
-        'supplier': 'supplier.php',
-        'payment': 'payment-billing.php',
-        'return': 'return.php',
-        'setting': 'setting.php',
-        'report': 'report.php'
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle sidebar on mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
         
-    };
-
-    menuItems.forEach(item => {
-        const pageId = item.getAttribute('data-page');
-        item.classList.remove('active'); // Reset all
-        
-        // If this is the current page, highlight it
-        if (pageMap[pageId] && currentPage.includes(pageMap[pageId])) {
-            item.classList.add('active');
-        }
-    });
-
-    
-    
-});
-
-
-// Enhanced sidebar search functionality
-document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.querySelector('.search-input');
-    const menuItems = document.querySelectorAll('.menu-item:not(#logout)');
-    const sidebar = document.querySelector('.sidebar');
-    
-    // Create a container for search results
-    const searchResultsContainer = document.createElement('div');
-    searchResultsContainer.classList.add('search-results');
-    searchResultsContainer.style.display = 'none';
-    searchResultsContainer.style.position = 'absolute';
-    searchResultsContainer.style.backgroundColor = '#252525';
-    searchResultsContainer.style.width = 'calc(100% - 40px)';
-    searchResultsContainer.style.borderRadius = '8px';
-    searchResultsContainer.style.marginTop = '5px';
-    searchResultsContainer.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
-    searchResultsContainer.style.zIndex = '100';
-    searchResultsContainer.style.maxHeight = '300px';
-    searchResultsContainer.style.overflowY = 'auto';
-    
-    // Insert the search results container after the search input
-    document.querySelector('.search-container').appendChild(searchResultsContainer);
-    
-    // Create menu map for searching
-    const menuMap = [];
-    menuItems.forEach(item => {
-        const menuText = item.querySelector('.menu-text').textContent.trim();
-        const menuIcon = item.querySelector('.menu-icon').innerHTML;
-        const menuLink = item.getAttribute('href');
-        const dataPage = item.getAttribute('data-page');
-        
-        menuMap.push({
-            text: menuText,
-            icon: menuIcon,
-            link: menuLink,
-            dataPage: dataPage
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
         });
-    });
-    
-    // Function to filter menu items based on search input
-    function filterMenuItems(searchTerm) {
-        searchTerm = searchTerm.toLowerCase();
         
-        if (!searchTerm) {
-            searchResultsContainer.style.display = 'none';
-            searchResultsContainer.innerHTML = '';
-            return;
-        }
+        // Set active menu item based on current page
+        const menuItems = document.querySelectorAll('.menu-link:not(.logout-link)');
+        const currentPage = window.location.pathname.split('/').pop().toLowerCase();
         
-        const filteredItems = menuMap.filter(item => 
-            item.text.toLowerCase().includes(searchTerm)
-        );
+        // Map menu items to their corresponding pages
+        const pageMap = {
+            'dashboard': 'dashboard.php',
+            'customer': 'customer.php',
+            'order': 'order.php',
+            'sales': 'sales.php',
+            'stock': 'stock.php',
+            'supplier': 'supplier.php',
+            'payment': 'payment-billing.php',
+            'return': 'return.php',
+            'setting': 'setting.php',
+            'report': 'report.php'
+        };
         
-        renderSearchResults(filteredItems);
-    }
-    
-    // Function to render search results
-    function renderSearchResults(items) {
-        searchResultsContainer.innerHTML = '';
-        
-        if (items.length === 0) {
-            searchResultsContainer.style.display = 'block';
-            const noResults = document.createElement('div');
-            noResults.style.padding = '15px';
-            noResults.style.color = '#aaa';
-            noResults.style.textAlign = 'center';
-            noResults.textContent = 'No results found';
-            searchResultsContainer.appendChild(noResults);
-            return;
-        }
-        
-        searchResultsContainer.style.display = 'block';
-        
-        items.forEach(item => {
-            const resultItem = document.createElement('a');
-            resultItem.href = item.link;
-            resultItem.classList.add('search-result-item');
-            resultItem.style.display = 'flex';
-            resultItem.style.alignItems = 'center';
-            resultItem.style.padding = '12px 15px';
-            resultItem.style.color = '#aaa';
-            resultItem.style.textDecoration = 'none';
-            resultItem.style.transition = 'all 0.3s';
+        menuItems.forEach(item => {
+            const pageId = item.getAttribute('data-page');
             
-            resultItem.innerHTML = `
-                <span class="menu-icon" style="margin-right: 15px; font-size: 16px; width: 24px; text-align: center;">
-                    ${item.icon}
-                </span>
-                <span class="menu-text" style="font-size: 16px;">
-                    ${item.text}
-                </span>
-            `;
+            // Reset active state
+            item.classList.remove('active');
             
-            resultItem.addEventListener('mouseover', function() {
-                this.style.backgroundColor = '#333';
-                this.style.color = '#e67e22';
-            });
-            
-            resultItem.addEventListener('mouseout', function() {
-                this.style.backgroundColor = 'transparent';
-                this.style.color = '#aaa';
-            });
-            
-            searchResultsContainer.appendChild(resultItem);
-        });
-    }
-    
-    // Add event listener for search input
-    searchInput.addEventListener('input', function() {
-        filterMenuItems(this.value);
-    });
-    
-    // Close search results when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!searchResultsContainer.contains(event.target) && event.target !== searchInput) {
-            searchResultsContainer.style.display = 'none';
-        }
-    });
-    
-    // Show results again when focusing on input
-    searchInput.addEventListener('focus', function() {
-        if (this.value) {
-            filterMenuItems(this.value);
-        }
-    });
-    
-    // Handle keyboard navigation in search results
-    searchInput.addEventListener('keydown', function(e) {
-        if (searchResultsContainer.style.display === 'none') return;
-        
-        const resultItems = searchResultsContainer.querySelectorAll('.search-result-item');
-        if (resultItems.length === 0) return;
-        
-        const firstResult = resultItems[0];
-        const lastResult = resultItems[resultItems.length - 1];
-        
-        // Find currently focused item
-        const focusedItem = document.activeElement;
-        let currentIndex = -1;
-        
-        for (let i = 0; i < resultItems.length; i++) {
-            if (resultItems[i] === focusedItem) {
-                currentIndex = i;
-                break;
+            // If this is the current page, highlight it
+            if (pageMap[pageId] && currentPage.includes(pageMap[pageId])) {
+                item.classList.add('active');
             }
-        }
+        });
         
-        switch (e.key) {
-            case 'ArrowDown':
-                e.preventDefault();
-                if (currentIndex === -1) {
-                    firstResult.focus();
-                } else if (currentIndex < resultItems.length - 1) {
-                    resultItems[currentIndex + 1].focus();
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
                 }
-                break;
-                
-            case 'ArrowUp':
-                e.preventDefault();
-                if (currentIndex > 0) {
-                    resultItems[currentIndex - 1].focus();
-                } else if (currentIndex === 0) {
-                    searchInput.focus();
-                }
-                break;
-                
-            case 'Escape':
-                e.preventDefault();
-                searchResultsContainer.style.display = 'none';
-                searchInput.focus();
-                break;
-                
-            case 'Enter':
-                if (currentIndex !== -1) {
-                    e.preventDefault();
-                    resultItems[currentIndex].click();
-                }
-                break;
-        }
-    });
-    
-    // Initialize menu active state
-    const currentPage = window.location.pathname.split('/').pop().toLowerCase();
-    
-    // Map menu items to their corresponding pages
-    const pageMap = {
-        'dashboard': 'dashboard.php',
-        'customer': 'customer.php',
-        'order': 'order.php',
-        'sales': 'sales.php',
-        'stock': 'stock.php',
-        'supplier': 'supplier.php',
-        'payment': 'payment-billing.php',
-        'return': 'return.php',
-        'setting': 'setting.php',
-        'report': 'report.php'
-    };
-    
-    menuItems.forEach(item => {
-        const pageId = item.getAttribute('data-page');
-        item.classList.remove('active'); // Reset all
+            });
+        });
         
-        // If this is the current page, highlight it
-        if (pageMap[pageId] && currentPage.includes(pageMap[pageId])) {
-            item.classList.add('active');
-        }
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 992) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnMenuToggle = menuToggle.contains(event.target);
+                
+                if (!isClickInsideSidebar && !isClickOnMenuToggle) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
     });
-});
-
-</script>
-
-
-
+    </script>
 </body>
 </html>

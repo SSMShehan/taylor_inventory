@@ -157,20 +157,23 @@ if ($page == 'profit') {
         }
 
         .content {
-            padding: 50px;
             max-width: 1200px;
             margin: 0 auto;
+            flex: auto;
+            padding: 20px;
+            transition: margin-left 0.3s;
+            margin-top: 70px; 
         }
 
-        h1 {
+        .header1 {
             font-size: 28px;
             margin-bottom: 20px;
             color: #333;
         }
 
-        h2 {
+        .header2 {
             font-size: 22px;
-            color:rgba(255, 123, 0, 0.89);
+            color:rgba(0, 216, 51, 0.8);
             margin-top: 30px;
             margin-bottom: 15px;
             border-bottom: 1px solid #ddd;
@@ -299,7 +302,7 @@ if ($page == 'profit') {
         .page-navigation a {
             display: inline-block;
             padding: 10px 20px;
-            background-color: rgba(255, 123, 0, 0.89);
+            background-color: #007bff;
             color: white;
             text-decoration: none;
             border-radius: 5px;
@@ -309,7 +312,7 @@ if ($page == 'profit') {
         }
         
         .page-navigation a:hover {
-            background-color: #e66c00;
+            background-color: #0056b3;
         }
         
         .positive {
@@ -359,7 +362,7 @@ if ($page == 'profit') {
 
     <div class="report-container">
         <div class="report-left">
-            <h2>Sales Trend</h2>
+            <h2 class="header2">Sales Trend</h2>
             <table>
                 <thead>
                     <tr>
@@ -384,7 +387,7 @@ if ($page == 'profit') {
 
         <div class="report-right">
             <div class="payment-distribution">
-                <h3>Payment Method Distribution</h3>
+                <h3 class="header3">Payment Method Distribution</h3>
                 <ul>
                     <?php 
                     // Display known payment methods first
@@ -410,7 +413,7 @@ if ($page == 'profit') {
             </div>
 
             <div class="top-days">
-                <h3>Top Performing Days</h3>
+                <h3 class="header3">Top Performing Days</h3>
                 <ol>
                     <?php foreach ($top_days as $index => $day): ?>
                     <li>
@@ -428,10 +431,10 @@ if ($page == 'profit') {
     
     <?php elseif ($page == 'profit'): ?>
     <!-- PROFIT & LOSS PAGE -->
-    <h1>Profit & Loss Summary</h1>
+    <h1 class="header1">Profit & Loss Summary</h1>
     
     <div class="profit-loss-summary">
-        <h2>Financial Overview</h2>
+        <h2 class="header2">Financial Overview</h2>
         <table>
             <thead>
                 <tr>
@@ -459,7 +462,7 @@ if ($page == 'profit') {
     <div class="report-container">
         <div class="report-left">
             <div class="revenue-breakdown">
-                <h3>Revenue Breakdown</h3>
+                <h3 class="header3">Revenue Breakdown</h3>
                 <table>
                     <thead>
                         <tr>
@@ -484,7 +487,7 @@ if ($page == 'profit') {
             </div>
             
             <div class="key-insights">
-                <h3>Key Insights & Recommendations</h3>
+                <h3 class="header3">Key Insights & Recommendations</h3>
                 <ul>
                     <?php foreach ($key_insights as $insight): ?>
                     <li><?php echo htmlspecialchars($insight); ?></li>
@@ -494,7 +497,7 @@ if ($page == 'profit') {
         </div>
 
         <div class="report-right">
-            <h2>Expense Analysis</h2>
+            <h2 class="header2">Expense Analysis</h2>
             <table>
                 <thead>
                     <tr>
