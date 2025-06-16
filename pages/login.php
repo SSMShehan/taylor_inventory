@@ -238,11 +238,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
     <div class="container">
         <div class="left-panel">
-            <img src="../img/tailor-illustration.png" alt="Tailor Illustration" class="illustration">
+            <img src="../img/MicrosoftTeams-image.webp" alt="Tailor Illustration" class="illustration">
         </div>
         <div class="right-panel">
             <div class="login-form">
-                <h1 class="login-title">NADEEKA TAYLOR</h1>
+                <h1 class="login-title">MGS GARMENT</h1>
                 
                 <?php 
                 if(!empty($login_err)){
